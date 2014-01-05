@@ -19,10 +19,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.com.android.mobiledata=false \
     ro.com.android.dataroaming=false
 
-# Dalvik Tweaks	
-PRODUCT_PROPERTY_OVERRIDES += \
-    dalvik.vm.jit.codecachesize=0
-
 # Use awesome player instead of nuplayer	
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.sys.media.use-awesome=true \
