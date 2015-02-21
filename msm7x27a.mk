@@ -43,12 +43,12 @@ PRODUCT_PACKAGES += \
 # Audio
 PRODUCT_PACKAGES += \
     audio.primary.msm7x27a \
-    audio_policy.msm7x27a \
     audio.a2dp.default \
     audio.r_submix.default \
     audio.usb.default \
     libaudioutils \
     libaudio-resampler
+
 
  # GPS
 PRODUCT_PACKAGES += \
@@ -95,12 +95,15 @@ PRODUCT_PACKAGES += \
     com.android.future.usb.accessory \
     HwaSettings
  
- # Media
+# Media
 PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml \
     frameworks/av/media/libstagefright/data/media_codecs_ffmpeg.xml:system/etc/media_codecs_ffmpeg.xml
+
+# Audio
+    device/htc/msm7x27a-common/configs/audio_policy.conf:system/etc/audio_policy.conf
 
 # GPS config
 PRODUCT_COPY_FILES += \

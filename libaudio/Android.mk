@@ -3,7 +3,8 @@
 #AUDIO_POLICY_TEST := true
 #ENABLE_AUDIO_DUMP := true
 
-ifeq ($(TARGET_BOOTLOADER_BOARD_NAME),pico)
+ifneq ($(TARGET_BOARD_PLATFORM),msm7x27a)
+TARGET_HAS_QACT := true
 LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
@@ -11,8 +12,7 @@ LOCAL_SRC_FILES := \
     audio_hw_hal.cpp \
     HardwarePinSwitching.c
 
-TARGET_HAS_QACT := false
-ifeq ($(TARGET_HAS_QACT),true)
+ifeq ($(strip $(TARGET_HAS_QACT)),true)
 LOCAL_SRC_FILES += \
     AudioHardware_cad.cpp
 else
@@ -35,14 +35,10 @@ endif
 
 ifeq ($(strip $(BOARD_USES_SRS_TRUEMEDIA)),true)
 LOCAL_CFLAGS += -DSRS_PROCESSING
-$(shell mkdir -p $(OUT)/obj/SHARED_LIBRARIES/libsrsprocessing_intermediates/)
-$(shell touch $(OUT)/obj/SHARED_LIBRARIES/libsrsprocessing_intermediates/export_includes)
 endif
 
 LOCAL_CFLAGS += -DQCOM_VOIP_ENABLED
-ifeq ($(TARGET_QCOM_TUNNEL_LPA_ENABLED),true)
 LOCAL_CFLAGS += -DQCOM_TUNNEL_LPA_ENABLED
-endif
 
 LOCAL_SHARED_LIBRARIES := \
     libcutils       \
@@ -53,25 +49,25 @@ ifneq ($(TARGET_SIMULATOR),true)
 LOCAL_SHARED_LIBRARIES += libdl
 endif
 
-ifeq ($(TARGET_HAS_QACT),true)
+ifeq ($(strip $(TARGET_HAS_QACT)),true)
+$(shell mkdir -p $(OUT)/obj/SHARED_LIBRARIES/libaudcal_intermediates/)
+$(shell touch $(OUT)/obj/SHARED_LIBRARIES/libaudcal_intermediates/export_includes)
+
 LOCAL_SHARED_LIBRARIES += libaudcal
-    LOCAL_CFLAGS += -DTARGET_HAS_QACT
-	# hack for prebuilt
-	$(shell mkdir -p $(OUT)/obj/SHARED_LIBRARIES/libaudcal_intermediates/)
-	$(shell touch $(OUT)/obj/SHARED_LIBRARIES/libaudcal_intermediates/export_includes)
 endif
+
 LOCAL_STATIC_LIBRARIES := \
     libmedia_helper \
     libaudiohw_legacy
 
-LOCAL_MODULE := audio.primary.msm7x27a
+LOCAL_MODULE := audio.primary.$(TARGET_BOARD_PLATFORM)
 LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
 LOCAL_MODULE_TAGS := optional
 
 LOCAL_CFLAGS += -fno-short-enums
 
 LOCAL_C_INCLUDES := $(TARGET_OUT_HEADERS)/mm-audio/audio-alsa
-ifeq ($(TARGET_HAS_QACT),true)
+ifeq ($(strip $(TARGET_HAS_QACT)),true)
 LOCAL_C_INCLUDES += $(TARGET_OUT_HEADERS)/mm-audio/audcal
 endif
 LOCAL_C_INCLUDES += hardware/libhardware/include
@@ -85,6 +81,7 @@ LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
 include $(BUILD_SHARED_LIBRARY)
 
 # The audio policy is implemented on top of legacy policy code
+ifeq ($(USE_LEGACY_AUDIO_POLICY), 1)
 include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES := \
@@ -101,7 +98,7 @@ LOCAL_STATIC_LIBRARIES := \
     libmedia_helper \
     libaudiopolicy_legacy
 
-LOCAL_MODULE := audio_policy.msm7x27a
+LOCAL_MODULE := audio_policy.$(TARGET_BOARD_PLATFORM)
 LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
 LOCAL_MODULE_TAGS := optional
 
@@ -109,12 +106,11 @@ ifeq ($(BOARD_HAVE_BLUETOOTH),true)
   LOCAL_CFLAGS += -DWITH_A2DP
 endif
 
-
 LOCAL_C_INCLUDES := hardware/libhardware_legacy/audio
 
 LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
 LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
 
 include $(BUILD_SHARED_LIBRARY)
-
-endif # TARGET_BOOTLOADER_BOARD_NAME
+endif
+endif
