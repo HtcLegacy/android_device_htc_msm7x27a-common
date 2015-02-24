@@ -101,14 +101,9 @@ PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml \
     frameworks/av/media/libstagefright/data/media_codecs_ffmpeg.xml:system/etc/media_codecs_ffmpeg.xml
 
-# GPS config
-PRODUCT_COPY_FILES += \
-    device/htc/msm7x27a-common/gps/etc/gps.conf:system/etc/gps.conf	
-
 PRODUCT_AAPT_CONFIG := normal mdpi
 PRODUCT_AAPT_PREF_CONFIG := mdpi
-PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
-PRODUCT_TAGS += dalvik.gc.type-precise	         
+PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0    
 
 # OpenDelta
 PRODUCT_PROPERTY_OVERRIDES += ro.delta.version=VERSION
