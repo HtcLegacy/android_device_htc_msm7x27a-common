@@ -105,6 +105,11 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/htc/msm7x27a-common/configs/audio_policy.conf:system/etc/audio_policy.conf
 
+# Use ART small mode
+PRODUCT_PROPERTY_OVERRIDES += \
+    dalvik.vm.dex2oat-filter=interpret-only \
+    dalvik.vm.image-dex2oat-filter=speed
+
 PRODUCT_AAPT_CONFIG := normal mdpi
 PRODUCT_AAPT_PREF_CONFIG := mdpi
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0    
