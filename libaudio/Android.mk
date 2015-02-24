@@ -3,7 +3,7 @@
 #AUDIO_POLICY_TEST := true
 #ENABLE_AUDIO_DUMP := true
 
-ifeq ($(TARGET_BOOTLOADER_BOARD_NAME),pico)
+ifneq ($(filter msm7x27a,$(TARGET_BOARD_PLATFORM)),)
 LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
