@@ -25,7 +25,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Use awesome player instead of nuplayer	
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.sys.media.use-awesome=true \
     audio.offload.disable=1
 	
 # Disable atlas services on low-ram targets
