@@ -133,6 +133,7 @@ ifeq ($(HOST_OS),linux)
   endif
 endif
 DONT_DEXPREOPT_PREBUILTS := true
+WITH_DEXPREOPT_COMP=true
 
 # RIL 
 BOARD_RIL_CLASS := ../../../device/htc/msm7x27a-common/ril
