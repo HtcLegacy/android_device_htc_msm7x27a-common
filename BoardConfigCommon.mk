@@ -14,6 +14,7 @@
 #
 
 BOARD_VENDOR := htc
+QCOM_BOARD_PLATFORMS += msm7x27a
 
 TARGET_SPECIFIC_HEADER_PATH := device/htc/msm7x27a-common/include
 
